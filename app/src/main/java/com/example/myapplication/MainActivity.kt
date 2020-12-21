@@ -10,9 +10,7 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.EditText
 import android.widget.TextView
 
@@ -23,9 +21,11 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        WebView.setWebContentsDebuggingEnabled(true)
         webview = this.findViewById(R.id.wv)
         webview.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         webview.settings.loadsImagesAutomatically = false
+        webview.settings.javaScriptEnabled = true
         webview.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 // do your handling codes here, which url is the requested url
@@ -33,6 +33,8 @@ class MainActivity : Activity() {
                 view.loadUrl(url)
                 return false // then it is not handled by default action
             }
+        }
+        webview.webChromeClient = object : WebChromeClient(){
         }
         webview.loadUrl("http://m.xbiquge.la")
 
